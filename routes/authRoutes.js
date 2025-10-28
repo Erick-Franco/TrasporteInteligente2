@@ -1,22 +1,20 @@
-import express from "express";
-import supabase from "../config/supabaseClient.js";
+import express from 'express'
+import { supabase } from '../config/supabaseClient.js'
 
-const router = express.Router();
+const router = express.Router()
 
-// Registro de usuario
-router.post("/register", async (req, res) => {
-  const { email, password } = req.body;
-  const { data, error } = await supabase.auth.signUp({ email, password });
-  if (error) return res.status(400).json({ error: error.message });
-  res.json({ message: "Usuario registrado correctamente", data });
-});
+router.post('/signup', async (req, res) => {
+  const { email, password } = req.body
+  const { data, error } = await supabase.auth.signUp({ email, password })
+  if (error) return res.status(400).json({ error: error.message })
+  res.json(data)
+})
 
-// Login de usuario
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return res.status(401).json({ error: error.message });
-  res.json({ message: "Inicio de sesión exitoso", data });
-});
+router.post('/signin', async (req, res) => {
+  const { email, password } = req.body
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+  if (error) return res.status(400).json({ error: error.message })
+  res.json(data)
+})
 
-export default router;
+export default router
